@@ -4,7 +4,7 @@ import { onError } from "apollo-link-error";
 import { getMainDefinition } from "apollo-utilities"
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { persistCache } from "apollo-cache-persist";
-
+import { AsyncStorage } from "react-native";
 
 const httpLink = new HttpLink({
     uri: "http://localhost:4000"
@@ -15,6 +15,13 @@ const wsLink = new WebSocketLink({
     options: {
         reconnect: true
     }
+});
+
+const cache = new InMemoryCache();
+
+persistCache({
+    cache,
+    storage: AsyncStorage
 });
 
 const link = split(
@@ -31,7 +38,13 @@ const link = split(
 
 const client = new ApolloClient({
     link,
-    cache: new InMemoryCache()
+    cache,
+    request: async operation => {
+        const token = await AsyncStorage.getItem("jwt");
+        return operation.setContext({
+            headers: { Authorization: `Bearer ${token}` }
+        });
+    }
 });
 
 export default client;
