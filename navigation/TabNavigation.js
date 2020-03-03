@@ -16,5 +16,21 @@ const stackFactory = (initialRoute, costomConfig) =>
     );
 
 export default createBottomTabNavigator (
+    {
+        Friends: {
 
+        },
+        Chatting: {
+
+        },
+        Add: {
+
+        }, 
+        Post: {
+
+        }, 
+        Profile: {
+            
+        }
+    }
 );
