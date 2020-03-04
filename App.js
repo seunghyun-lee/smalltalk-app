@@ -9,6 +9,7 @@ import { ThemeProvider } from "styled-components";
 import { AuthProvider} from "./AuthContext";
 import client from "./apolloClient";
 import styles from "./styles";
+import NavController from "./components/NavController";
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -37,10 +38,8 @@ export default function App() {
   return loaded && client && isLoggedIn !== null ? (
     <ApolloProvider client={client}>
       <ThemeProvider theme={styles}>
-        <AuthProvider isLoggedIn={isLoggedIn}>
-          <View>
-            <Text>Start App!</Text>
-          </View>
+        <AuthProvider isLoggedIn={isLoggedIn}>          
+          <NavController />          
         </AuthProvider>
       </ThemeProvider>
     </ApolloProvider>
